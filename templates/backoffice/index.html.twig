@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice{% endblock %}
+
+{% block body %}  
+  
+    <h1>Backoffice</h1>    
+        
+        {% if app.user.id  %}  
+            {% for agenda in agenda %}                  
+                <div class="media">
+                    {# <img src='' class='mr-3'> #}
+                    <div class="media-body">
+                        <h5 class="mt-0">{{agenda.titre}}</h5>
+                        <p>{{agenda.description}}</p>
+                        <p>{{ agenda.date ? agenda.date|date('d-m-y') : '' }}</p>
+                        <div>
+                            Commentaires
+                            {{ agenda.agendacomments|length }}
+                        </div>
+                        
+                        <a href="{{ path('backoffice_show', {'id': agenda.id}) }}">Détail</a>
+                        <a href="{{ path('backoffice_modifier_agenda', {'id': agenda.id}) }}">Modifier</a>
+                        <a href="{{ path('backoffice_delete_agenda', {'id': agenda.id}) }}">Supprimer</a>
+                    </div>
+                </div>        
+            {% endfor %}
+            {% else %}
+                <p>Vous n'avez pas encore céer d'agenda</p>
+            {% endif %}
+{% endblock %}

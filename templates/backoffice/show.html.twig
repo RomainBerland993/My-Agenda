@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Article</h1>
+      {# <img src=''> #}
+      {{ agenda.titre }}
+      {{ agenda.description }}
+      {{ agenda.date ? agenda.date|date('Y-m-d') : '' }}
+      <h3>Commentaires</h3>
+    <table class="table">    
+      {% for commentaire in agenda.agendacomments %}
+        {{ commentaire.commentaire }}
+      {% else %}
+        <p>Vous avez 0 commentaire</p>
+      {% endfor %}  
+    </table> 
+    <a href="{{ path('backoffice_index') }}">Retour </a>
+    <a href="{{ path('backoffice_modifier_agenda', {'id': agenda.id}) }}">edit</a>
+</div>
+{% endblock %}

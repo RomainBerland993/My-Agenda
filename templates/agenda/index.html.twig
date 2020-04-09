@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Agenda{% endblock %}
+
+{% block body %}
+ {% for agenda in agenda %}
+    <div class="media">
+         <img src='' class='mr-3'>
+        <div class="media-body">
+            <h5 class="mt-0">{{agenda.titre}}</h5>
+            <p>{{agenda.description}}</p>
+            <p>{{ agenda.date ? agenda.date|date('d-m-y') : '' }}</p>
+            <div>
+                Commentaires
+               {{ agenda.agendacomments|length }}
+               {% if is_granted('ROLE_USER') %} 
+               <a href="{{ path('backoffice_create_comment', {'id': agenda.id}) }}">Créer un commentaire</a>
+               {% else %}
+               <p>Vous devez être connecter pour rédiger un commentaire</p>
+               {% endif %} 
+            </div>
+            <a href="{{ path('agenda_show', {'id': agenda.id}) }}" class= "btn btn-primary">Détail</a>
+        </div>
+    </div>
+     {% else %}
+        <tr>
+            <td colspan=5>Il n'y a pas d'agenda pour le moment</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

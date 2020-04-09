@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}My agenda{% endblock %}</title>
+        
+        {% block head_css %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-grid.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap-reboot.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        {% endblock %}
+            
+    </head>
+    <body>
+        {% block header %}
+            <div class="nav">
+             <div class='container'>
+                <ul class="nav justify-content-center">
+                {% if is_granted('ROLE_ADMIN') %}                    
+                   <li class="nav-item">
+                        <h1><a class="nav-link active" href="{{ path('agenda_index') }}">                            
+                            Bonjour {{ app.user.pseudo }}
+                        </a></h1>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/backoffice">Backoffice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('admin_utilisateur') }}">Administration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('backoffice_agenda_new') }}">Créer un agenda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Modifier son mot de passe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Deconnexion</a>
+                    </li>                  
+
+                {% elseif is_granted('ROLE_USER') %}                    
+                    <li class="nav-item">
+                        <h1><a class="nav-link active" href="{{ path('agenda_index') }}">                          
+                            Bonjour {{ app.user.pseudo }}
+                        </a></h1>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ path('backoffice_index', {'id': app.user.id }) }}">Backoffice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('backoffice_agenda_new', {'id': app.user.id }) }}">Créer un agenda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Modifier son mot de passe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Deconnexion</a>
+                    </li>                    
+                {% else %}
+                    <li class="nav-item">
+                            <h1><a class="nav-link active" href="{{ path('agenda_index') }}">My Agenda</a></h1>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/inscription">Inscription</a>
+                    </li>
+                {% endif %}
+                
+                </ul>
+                 </div>
+            </div>
+        {% endblock %}
+        <div class='container'>
+            {% block body %}{% endblock %}
+        </div>
+        {% block footer %}{% endblock %}
+        {% block head_js %}
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+                integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+                crossorigin="anonymous"></script>
+            <script type="text/javascript" src="scripts/bootstrap.bundle.min.js"></script>
+            <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+            <script type="text/javascript" src="scripts/script.js"></script>
+        {% endblock %}
+        
+    </body>
+</html>
